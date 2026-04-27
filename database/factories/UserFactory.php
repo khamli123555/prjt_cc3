@@ -27,10 +27,31 @@ class UserFactory extends Factory
         return [
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
+            'role' => fake()->randomElement(['patient', 'doctor']),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
         ];
+    }
+
+    /**
+     * Generate a patient user.
+     */
+    public function patient(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'role' => 'patient',
+        ]);
+    }
+
+    /**
+     * Generate a doctor user.
+     */
+    public function doctor(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'role' => 'doctor',
+        ]);
     }
 
     /**
