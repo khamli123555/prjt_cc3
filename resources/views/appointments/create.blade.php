@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Book Appointment') }}
+            {{ __('app.appointment.book') }}
         </h2>
     </x-slot>
 
@@ -10,7 +10,7 @@
             <div class="p-6 text-gray-900">
                 <form method="POST" action="{{ route('appointments.store') }}">
                     @csrf
-                    @include('appointments._form', ['submitLabel' => 'Create Appointment'])
+                    @include('appointments._form', ['submitLabel' => __('app.buttons.create')])
                 </form>
             </div>
         </div>

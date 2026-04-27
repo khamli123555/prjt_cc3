@@ -15,8 +15,21 @@
                 </div>
             </div>
 
-            <!-- Settings Dropdown -->
-            <div class="hidden sm:flex sm:items-center sm:ms-6">
+            <div class="hidden sm:flex sm:items-center sm:ms-6 gap-3">
+                <div class="flex items-center gap-2">
+                    <label for="locale" class="text-sm text-gray-600">{{ __('app.nav.language') }}</label>
+                    <select id="locale" class="rounded-md border-gray-300 text-sm focus:border-indigo-500 focus:ring-indigo-500"
+                            onchange="document.getElementById('locale-dynamic').action='{{ url('/locale') }}/'+this.value; document.getElementById('locale-dynamic').submit();">
+                        <option value="en" @selected(app()->getLocale() === 'en')>EN</option>
+                        <option value="fr" @selected(app()->getLocale() === 'fr')>FR</option>
+                        <option value="ar" @selected(app()->getLocale() === 'ar')>AR</option>
+                    </select>
+                </div>
+                <form id="locale-dynamic" method="POST" action="{{ route('locale.switch', app()->getLocale()) }}" class="hidden">
+                    @csrf
+                </form>
+
+                <!-- Settings Dropdown -->
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
@@ -37,7 +50,7 @@
 
                     <x-slot name="content">
                         <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Profile') }}
+                            {{ __('app.nav.profile') }}
                         </x-dropdown-link>
 
                         <!-- Authentication -->
@@ -47,7 +60,7 @@
                             <x-dropdown-link :href="route('logout')"
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">
-                                {{ __('Log Out') }}
+                                {{ __('app.nav.logout') }}
                             </x-dropdown-link>
                         </form>
                     </x-slot>

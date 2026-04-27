@@ -11,9 +11,9 @@
             </div>
             
             <div class="flex gap-6">
-                <a href="#" class="text-xs font-medium text-gray-500 hover:text-indigo-600 transition-colors">Privacy Policy</a>
-                <a href="#" class="text-xs font-medium text-gray-500 hover:text-indigo-600 transition-colors">Terms of Service</a>
-                <a href="#" class="text-xs font-medium text-gray-500 hover:text-indigo-600 transition-colors">Support</a>
+                <a href="#" class="text-xs font-medium text-gray-500 hover:text-indigo-600 transition-colors">{{ __('app.footer.privacy') }}</a>
+                <a href="#" class="text-xs font-medium text-gray-500 hover:text-indigo-600 transition-colors">{{ __('app.footer.terms') }}</a>
+                <a href="#" class="text-xs font-medium text-gray-500 hover:text-indigo-600 transition-colors">{{ __('app.footer.support') }}</a>
             </div>
         </div>
     </div>

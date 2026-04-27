@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Edit Appointment') }}
+            {{ __('app.appointment.edit') }}
         </h2>
     </x-slot>
 
@@ -11,7 +11,7 @@
                 <form method="POST" action="{{ route('appointments.update', $appointment) }}">
                     @csrf
                     @method('PUT')
-                    @include('appointments._form', ['submitLabel' => 'Update Appointment'])
+                    @include('appointments._form', ['submitLabel' => __('app.buttons.update')])
                 </form>
             </div>
         </div>

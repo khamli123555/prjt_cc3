@@ -7,6 +7,8 @@ use App\Http\Requests\UpdateAppointmentRequest;
 use App\Models\Appointment;
 use App\Models\Service;
 use App\Models\User;
+use App\Mail\AppointmentConfirmed;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
@@ -24,6 +26,9 @@ class AppointmentController extends Controller
 
         return view('appointments.index', [
             'appointments' => $appointments,
+            'patients' => User::query()->where('role', 'patient')->orderBy('name')->get(),
+            'doctors' => User::query()->where('role', 'doctor')->orderBy('name')->get(),
+            'services' => Service::query()->orderBy('name')->get(),
         ]);
     }
 
@@ -44,11 +49,15 @@ class AppointmentController extends Controller
      */
     public function store(StoreAppointmentRequest $request): RedirectResponse
     {
-        Appointment::create($request->validated());
+        $appointment = Appointment::create($request->validated());
+
+        if ($appointment->status === 'confirmed') {
+            Mail::to($appointment->patient->email)->send(new AppointmentConfirmed($appointment));
+        }
 
         return redirect()
             ->route('appointments.index')
-            ->with('success', 'Appointment booked successfully.');
+            ->with('success', __('app.flash.appointment_created'));
     }
 
     /**
@@ -73,7 +82,7 @@ class AppointmentController extends Controller
 
         return redirect()
             ->route('appointments.index')
-            ->with('success', 'Appointment updated successfully.');
+            ->with('success', __('app.flash.appointment_updated'));
     }
 
     /**
@@ -85,6 +94,30 @@ class AppointmentController extends Controller
 
         return redirect()
             ->route('appointments.index')
-            ->with('success', 'Appointment cancelled successfully.');
+            ->with('success', __('app.flash.appointment_cancelled'));
+    }
+
+    /**
+     * Search appointments.
+     */
+    public function search(\Illuminate\Http\Request $request)
+    {
+        $query = $request->get('q');
+
+        $appointments = Appointment::query()
+            ->with(['patient', 'doctor', 'service'])
+            ->when($query, function ($q) use ($query) {
+                $q->whereHas('patient', function ($q) use ($query) {
+                    $q->where('name', 'like', "%{$query}%");
+                })
+                ->orWhereHas('doctor', function ($q) use ($query) {
+                    $q->where('name', 'like', "%{$query}%");
+                })
+                ->orWhere('date', 'like', "%{$query}%");
+            })
+            ->latest('date')
+            ->get();
+
+        return view('appointments._list', compact('appointments'))->render();
     }
 }
