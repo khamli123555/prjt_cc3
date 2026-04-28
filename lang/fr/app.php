@@ -60,6 +60,22 @@ return [
     'dashboard' => [
         'welcome' => "Vous êtes connecté !",
     ],
+    'doctor' => [
+        'name' => 'Nom',
+        'email' => 'Email',
+        'list' => 'Liste des Docteurs',
+        'empty' => 'Aucun docteur trouvé.',
+        'specialty' => 'Spécialité',
+    ],
+    'patient' => [
+        'name' => 'Nom',
+        'email' => 'Email',
+        'list' => 'Liste des Patients',
+        'empty' => 'Aucun patient trouvé.',
+    ],
+    'confirm' => [
+        'delete' => 'Êtes-vous sûr de vouloir supprimer cet enregistrement ?',
+    ],
     'units' => [
         'minutes' => 'min',
         'currency' => '€',

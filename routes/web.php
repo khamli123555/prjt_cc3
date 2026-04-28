@@ -28,5 +28,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/appointments/search', [AppointmentController::class, 'search'])->name('appointments.search');
     Route::resource('appointments', AppointmentController::class)->except('show');
 });
+Route::get('doctors', [App\Http\Controllers\DoctorController::class, 'index'])->name('doctors.index');
+Route::get('patients', [App\Http\Controllers\PatientController::class, 'index'])->name('patients.index');
+Route::get('patients/{user}/history', [App\Http\Controllers\PatientController::class, 'history'])->name('patients.history');
+require __DIR__.'/auth.php';
 
 require __DIR__.'/auth.php';

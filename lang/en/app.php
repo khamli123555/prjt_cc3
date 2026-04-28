@@ -60,6 +60,24 @@ return [
     'dashboard' => [
         'welcome' => "You're logged in!",
     ],
+    'doctor' => [
+        'name' => 'Name',
+        'email' => 'Email',
+        'list' => 'Doctor List',
+        'empty' => 'No doctors found.',
+        'specialty' => 'Specialty',
+    ],
+    'patient' => [
+        'name' => 'Name',
+        'email' => 'Email',
+        'list' => 'Patient List',
+        'empty' => 'No patients found.',
+        'history_title' => 'Appointment History',
+        'view_history' => 'View History',
+    ],
+    'confirm' => [
+        'delete' => 'Are you sure you want to delete this record?',
+    ],
     'units' => [
         'minutes' => 'min',
         'currency' => '$',
