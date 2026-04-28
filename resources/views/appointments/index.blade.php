@@ -4,9 +4,9 @@
             <h2 class="font-bold text-3xl heading-gradient leading-tight">
                 {{ __('app.appointment.title') }}
             </h2>
-            <!-- Add New Appointment Button - Fixed with Dispatch -->
+            <!-- Add New Appointment Button - Fixed with Store + Debug -->
             <button type="button" 
-                    @click="$dispatch('open-quick-add')" 
+                    @click="$store.app.quickAddOpen = true; console.log('Modal Button Clicked. New State:', $store.app.quickAddOpen)" 
                     class="inline-flex items-center px-6 py-3 bg-indigo-600 border border-transparent rounded-xl font-bold text-white uppercase tracking-widest hover:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:border-indigo-900 focus:ring ring-indigo-300 transition ease-in-out duration-150 shadow-lg shadow-indigo-200">
                 <svg class="w-5 h-5 me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
@@ -19,7 +19,6 @@
     <div
         class="space-y-6"
         x-data="{
-            quickAddOpen: {{ $errors->any() && old('_from') === 'quick-add' ? 'true' : 'false' }},
             cancelOpen: false,
             cancelAction: '',
             openCancelModal(action) {
@@ -27,7 +26,7 @@
                 this.cancelOpen = true;
             }
         }"
-        @open-quick-add.window="quickAddOpen = true"
+        x-init="if ({{ $errors->any() && old('_from') === 'quick-add' ? 'true' : 'false' }}) $store.app.quickAddOpen = true"
     >
         @if (session('success'))
             <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 3000)" 
@@ -94,7 +93,7 @@
         </div>
 
         <!-- Quick Add Modal (Add Appointment) -->
-        <div x-show="quickAddOpen" 
+        <div x-show="$store.app.quickAddOpen" 
              x-transition:enter="transition ease-out duration-300"
              x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
              x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
@@ -102,11 +101,11 @@
              x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
              x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
              x-cloak class="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto">
-            <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" @click="quickAddOpen = false"></div>
+            <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" @click="$store.app.quickAddOpen = false"></div>
             <div class="relative z-10 w-full max-w-2xl rounded-3xl bg-white shadow-2xl border border-slate-100 overflow-hidden">
                 <div class="bg-indigo-600 p-6 flex items-center justify-between">
                     <h3 class="text-xl font-bold text-white">{{ __('app.modal.quick_add_title') }}</h3>
-                    <button type="button" class="text-indigo-200 hover:text-white transition-colors" @click="quickAddOpen = false">
+                    <button type="button" class="text-indigo-200 hover:text-white transition-colors" @click="$store.app.quickAddOpen = false">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                         </svg>
@@ -158,10 +157,23 @@
                             <input name="date" type="datetime-local" class="input-premium block w-full" value="{{ old('date') }}">
                             <x-input-error :messages="$errors->get('date')" class="mt-2" />
                         </div>
+
+                        <div class="md:col-span-2 space-y-2">
+                            <label class="block text-sm font-bold text-slate-700">{{ __('app.appointment.status') }}</label>
+                            <div class="flex flex-wrap gap-4">
+                                @foreach(['pending', 'confirmed', 'cancelled'] as $status)
+                                    <label class="flex items-center gap-2 cursor-pointer group">
+                                        <input type="radio" name="status" value="{{ $status }}" @checked(old('status', 'pending') === $status) class="w-5 h-5 text-indigo-600 focus:ring-indigo-500 border-slate-300 transition-all cursor-pointer">
+                                        <span class="text-sm text-slate-600 group-hover:text-slate-900 transition-colors uppercase font-bold tracking-wider">{{ __('app.status.' . $status) }}</span>
+                                    </label>
+                                @endforeach
+                            </div>
+                            <x-input-error :messages="$errors->get('status')" class="mt-2" />
+                        </div>
                     </div>
 
                     <div class="mt-8 flex justify-end gap-3">
-                        <button type="button" class="px-6 py-3 text-sm font-bold text-slate-500 hover:bg-slate-100 rounded-2xl transition-all" @click="quickAddOpen = false">
+                        <button type="button" class="px-6 py-3 text-sm font-bold text-slate-500 hover:bg-slate-100 rounded-2xl transition-all" @click="$store.app.quickAddOpen = false">
                             {{ __('app.buttons.close') }}
                         </button>
                         <button type="submit" class="btn-premium">

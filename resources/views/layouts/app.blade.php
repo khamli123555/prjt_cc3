@@ -28,13 +28,13 @@
             }
         </style>
     </head>
-    <body class="font-sans antialiased bg-slate-50 text-slate-900">
+    <body class="font-sans antialiased bg-slate-50 text-slate-900" x-init="console.log('Alpine Store Ready')">
         <div class="min-h-screen flex">
             <!-- Sidebar -->
             @include('layouts.sidebar')
 
             <!-- Main Content Area -->
-            <div class="flex-1 flex flex-col min-h-screen {{ app()->getLocale() === 'ar' ? 'lg:mr-64' : 'lg:pl-64' }}" x-data="{ quickAddOpen: false }">
+            <div class="flex-1 flex flex-col min-h-screen {{ app()->getLocale() === 'ar' ? 'lg:mr-64' : 'lg:pl-64' }}">
                 <!-- Header -->
                 @include('layouts.header')
 

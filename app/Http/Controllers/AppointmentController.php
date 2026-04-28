@@ -29,7 +29,7 @@ class AppointmentController extends Controller
             ->when($user->role === 'patient', function ($q) use ($user) {
                 $q->where('user_id', $user->id);
             })
-            ->latest('date')
+            ->latest()
             ->paginate(10);
 
         return view('appointments.index', [
@@ -137,7 +137,7 @@ class AppointmentController extends Controller
                     $query->where('name', 'like', "%$q%");
                 });
             })
-            ->latest('date')
+            ->latest()
             ->get();
 
         $data = $appointments->map(function ($app) {
