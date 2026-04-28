@@ -4,33 +4,73 @@
 
 @layer base {
     :root {
-        --primary: 79 70 229;
-        --secondary: 107 114 128;
-        --accent: 14 165 233;
-        --background: 248 250 252;
-        --foreground: 15 23 42;
+        --primary: 99 102 241;    /* Indigo 500 */
+        --secondary: 168 85 247;  /* Purple 500 */
+        --accent: 20 184 166;     /* Teal 500 */
+        --bg-start: 248 250 252;
+        --bg-end: 241 245 249;
+        --glass-bg: 255 255 255;
+        --glass-border: 255 255 255;
     }
 
     body {
-        @apply bg-slate-50 text-slate-900 antialiased;
-        font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+        @apply antialiased text-slate-900;
+        background: radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.05) 0px, transparent 50%),
+                    radial-gradient(at 100% 0%, rgba(168, 85, 247, 0.05) 0px, transparent 50%),
+                    radial-gradient(at 100% 100%, rgba(20, 184, 166, 0.05) 0px, transparent 50%),
+                    radial-gradient(at 0% 100%, rgba(99, 102, 241, 0.05) 0px, transparent 50%),
+                    rgb(var(--bg-start));
+        background-attachment: fixed;
+        font-family: 'Plus Jakarta Sans', sans-serif;
     }
 }
 
 @layer components {
-    .glass {
-        @apply bg-white/70 backdrop-blur-md border border-white/20 shadow-xl;
+    .glass-card {
+        @apply bg-white/70 backdrop-blur-xl border border-white/40 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] rounded-[2rem] transition-all duration-300;
     }
 
-    .glass-dark {
-        @apply bg-slate-900/70 backdrop-blur-md border border-slate-700/30 shadow-xl;
+    .glass-card:hover {
+        @apply shadow-[0_8px_32px_0_rgba(31,38,135,0.12)] border-white/60;
+    }
+
+    .sidebar-glass {
+        @apply bg-slate-900/90 backdrop-blur-2xl border-r border-white/10 shadow-2xl;
     }
 
     .btn-premium {
-        @apply inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-xl shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200 transform hover:-translate-y-0.5 active:translate-y-0;
+        @apply relative inline-flex items-center px-8 py-3.5 overflow-hidden font-bold text-white transition-all duration-300 bg-indigo-600 rounded-2xl hover:bg-indigo-700 active:scale-95 shadow-lg shadow-indigo-200;
     }
 
-    .card-premium {
-        @apply bg-white rounded-3xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow duration-300;
+    .btn-premium::before {
+        content: '';
+        @apply absolute top-0 left-0 w-full h-full bg-gradient-to-r from-white/0 via-white/20 to-white/0 -translate-x-full transition-transform duration-500 ease-out;
     }
+
+    .btn-premium:hover::before {
+        @apply translate-x-full;
+    }
+
+    .nav-link-active {
+        @apply bg-white/10 text-white shadow-[0_0_20px_rgba(255,255,255,0.1)] border-l-4 border-indigo-500;
+    }
+
+    .input-premium {
+        @apply bg-white/50 backdrop-blur-sm border-slate-200 rounded-2xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 placeholder-slate-400;
+    }
+
+    .heading-gradient {
+        @apply bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 animate-gradient;
+        background-size: 200% auto;
+    }
+}
+
+@keyframes gradient {
+    0% { background-position: 0% center; }
+    50% { background-position: 100% center; }
+    100% { background-position: 0% center; }
+}
+
+.animate-gradient {
+    animation: gradient 8s ease infinite;
 }

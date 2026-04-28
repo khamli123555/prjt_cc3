@@ -80,4 +80,19 @@ return [
         'minutes' => 'min',
         'currency' => '€',
     ],
+    'dashboard_stats' => [
+        'total_appointments' => 'Total des Rendez-vous',
+        'today_appointments' => 'Rendez-vous d\'aujourd\'hui',
+        'pending_appointments' => 'Rendez-vous en Attente',
+        'patients_count' => 'Total des Patients',
+        'admin_portal' => 'Portail Administrateur',
+        'doctor_workspace' => 'Espace de Travail du Médecin',
+        'patient_lounge' => 'Salon du Patient',
+    ],
+    'email' => [
+        'dear' => 'Cher',
+        'appointment_confirmed' => 'Votre rendez-vous a été confirmé avec succès. Voici les détails :',
+        'change_cancel' => 'Si vous devez modifier ou annuler votre rendez-vous, veuillez utiliser le bouton ci-dessous :',
+        'all_rights_reserved' => 'Tous les droits réservés.',
+    ],
 ];

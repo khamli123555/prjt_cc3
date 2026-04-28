@@ -9,10 +9,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::post('/locale/{locale}', function (Request $request, string $locale) {
+Route::get('/lang/{locale}', function ($locale) {
     abort_unless(in_array($locale, ['en', 'fr', 'ar'], true), 404);
-    $request->session()->put('locale', $locale);
-
+    session(['locale' => $locale]);
     return back();
 })->name('locale.switch');
 

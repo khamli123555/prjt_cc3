@@ -1,6 +1,9 @@
 <?php
 
 return [
+    'dashboard' => 'لوحة التحكم',
+    'appointments' => 'المواعيد',
+    'logout' => 'تسجيل الخروج',
     'nav' => [
         'dashboard' => 'لوحة التحكم',
         'appointments' => 'المواعيد',
@@ -57,26 +60,14 @@ return [
         'terms' => 'شروط الاستخدام',
         'support' => 'الدعم',
     ],
-    'dashboard' => [
-        'welcome' => 'تم تسجيل دخولك بنجاح!',
-    ],
-    'units' => [
-        'minutes' => 'دقيقة',
-        'currency' => 'د.م.',
-    ],
     'dashboard_stats' => [
         'total_appointments' => 'إجمالي المواعيد',
         'today_appointments' => 'مواعيد اليوم',
         'pending_appointments' => 'المواعيد المعلقة',
-        'patients_count' => 'إجمالي المرضى',
-        'admin_portal' => 'بوابة الإدارة',
-        'doctor_workspace' => 'مساحة عمل الطبيب',
-        'patient_lounge' => 'صالة الانتظار',
+        'patients_count' => 'عدد المرضى',
     ],
-    'email' => [
-        'dear' => 'عزيزي',
-        'appointment_confirmed' => 'تم تأكيد موعدك بنجاح. فيما يلي التفاصيل:',
-        'change_cancel' => 'إذا كنت بحاجة إلى تغيير أو إلغاء موعدك، يرجى استخدام الزر أدناه:',
-        'all_rights_reserved' => 'جميع الحقوق محفوظة.',
+    'units' => [
+        'minutes' => 'دقيقة',
+        'currency' => 'د.م.',
     ],
 ];

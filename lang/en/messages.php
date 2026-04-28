@@ -91,10 +91,4 @@ return [
         'doctor_workspace' => 'Doctor Workspace',
         'patient_lounge' => 'Patient Lounge',
     ],
-    'email' => [
-        'dear' => 'Dear',
-        'appointment_confirmed' => 'Your appointment has been successfully confirmed. Below are the details:',
-        'change_cancel' => 'If you need to change or cancel your appointment, please use the button below:',
-        'all_rights_reserved' => 'All rights reserved.',
-    ],
 ];

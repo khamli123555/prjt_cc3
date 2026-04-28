@@ -1,14 +1,14 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex justify-between items-center">
-            <h2 class="font-bold text-2xl text-slate-900 leading-tight">
+            <h2 class="font-bold text-3xl heading-gradient leading-tight">
                 {{ __('app.patient.list') }}
             </h2>
         </div>
     </x-slot>
 
-    <div class="bg-white overflow-hidden shadow-sm border border-slate-100 rounded-2xl">
-        <div class="p-6 text-slate-900">
+    <div class="glass-card overflow-hidden">
+        <div class="p-8 text-slate-900">
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-separate border-spacing-y-2">
                     <thead>

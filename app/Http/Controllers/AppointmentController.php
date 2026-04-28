@@ -19,8 +19,16 @@ class AppointmentController extends Controller
      */
     public function index(): View
     {
+        $user = auth()->user();
+        
         $appointments = Appointment::query()
             ->with(['patient', 'doctor', 'service'])
+            ->when($user->role === 'doctor', function ($q) use ($user) {
+                $q->where('doctor_id', $user->id);
+            })
+            ->when($user->role === 'patient', function ($q) use ($user) {
+                $q->where('user_id', $user->id);
+            })
             ->latest('date')
             ->paginate(10);
 
@@ -49,15 +57,23 @@ class AppointmentController extends Controller
      */
     public function store(StoreAppointmentRequest $request): RedirectResponse
     {
-        $appointment = Appointment::create($request->validated());
+        try {
+            $appointment = Appointment::create($request->validated());
 
-        if ($appointment->status === 'confirmed') {
-            Mail::to($appointment->patient->email)->send(new AppointmentConfirmed($appointment));
+            if ($appointment->status === 'confirmed') {
+                Mail::to($appointment->patient->email)->send(new AppointmentConfirmed($appointment));
+            }
+
+            return redirect()
+                ->route('appointments.index')
+                ->with('success', __('app.flash.appointment_created'));
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error('Appointment Creation Failed: ' . $e->getMessage());
+            return redirect()
+                ->back()
+                ->withInput()
+                ->withErrors(['error' => 'Creation failed: ' . $e->getMessage()]);
         }
-
-        return redirect()
-            ->route('appointments.index')
-            ->with('success', __('app.flash.appointment_created'));
     }
 
     /**
@@ -102,22 +118,36 @@ class AppointmentController extends Controller
      */
     public function search(\Illuminate\Http\Request $request)
     {
-        $query = $request->get('q');
+        $q = $request->q;
+        $user = auth()->user();
 
         $appointments = Appointment::query()
             ->with(['patient', 'doctor', 'service'])
-            ->when($query, function ($q) use ($query) {
-                $q->whereHas('patient', function ($q) use ($query) {
-                    $q->where('name', 'like', "%{$query}%");
+            ->when($user->role === 'doctor', function ($q) use ($user) {
+                $q->where('doctor_id', $user->id);
+            })
+            ->when($user->role === 'patient', function ($q) use ($user) {
+                $q->where('user_id', $user->id);
+            })
+            ->where(function ($sub) use ($q) {
+                $sub->whereHas('patient', function ($query) use ($q) {
+                    $query->where('name', 'like', "%$q%");
                 })
-                ->orWhereHas('doctor', function ($q) use ($query) {
-                    $q->where('name', 'like', "%{$query}%");
-                })
-                ->orWhere('date', 'like', "%{$query}%");
+                ->orWhereHas('service', function ($query) use ($q) {
+                    $query->where('name', 'like', "%$q%");
+                });
             })
             ->latest('date')
             ->get();
 
-        return view('appointments._list', compact('appointments'))->render();
+        $data = $appointments->map(function ($app) {
+            return [
+                'name' => $app->patient->name,
+                'date' => $app->date->format('Y-m-d H:i'),
+                'service' => $app->service->name,
+            ];
+        });
+
+        return response()->json($data);
     }
 }

@@ -23,8 +23,8 @@
         </div>
         <div class="content">
             <h2 class="title">{{ __('app.flash.appointment_created') }}</h2>
-            <p>{{ __('Dear') }} {{ $appointment->patient->name }},</p>
-            <p>{{ __('Your appointment has been successfully confirmed. Below are the details:') }}</p>
+            <p>{{ __('app.email.dear') }} {{ $appointment->patient->name }},</p>
+            <p>{{ __('app.email.appointment_confirmed') }}</p>
             
             <div class="details">
                 <div class="detail-row">
@@ -41,11 +41,11 @@
                 </div>
             </div>
 
-            <p>{{ __('If you need to change or cancel your appointment, please use the button below:') }}</p>
+            <p>{{ __('app.email.change_cancel') }}</p>
             <a href="{{ route('appointments.index') }}" class="btn">{{ __('app.buttons.cancel') }}</a>
         </div>
         <div class="footer">
-            &copy; {{ date('Y') }} MedAppoint. {{ __('All rights reserved.') }}
+            &copy; {{ date('Y') }} MedAppoint. {{ __('app.email.all_rights_reserved') }}
         </div>
     </div>
 </body>

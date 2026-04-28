@@ -1,4 +1,4 @@
-<header class="bg-white border-b border-gray-100 sticky top-0 z-30 transition-all duration-300">
+<header class="bg-white/70 backdrop-blur-xl border-b border-white/40 sticky top-0 z-30 transition-all duration-300">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex">
@@ -19,18 +19,15 @@
                 <div class="flex items-center gap-2">
                     <label for="locale" class="text-sm text-gray-600">{{ __('app.nav.language') }}</label>
                     <select id="locale" class="rounded-md border-gray-300 text-sm focus:border-indigo-500 focus:ring-indigo-500"
-                            onchange="document.getElementById('locale-dynamic').action='{{ url('/locale') }}/'+this.value; document.getElementById('locale-dynamic').submit();">
+                            onchange="window.location.href='/lang/'+this.value;">
                         <option value="en" @selected(app()->getLocale() === 'en')>EN</option>
                         <option value="fr" @selected(app()->getLocale() === 'fr')>FR</option>
                         <option value="ar" @selected(app()->getLocale() === 'ar')>AR</option>
                     </select>
                 </div>
-                <form id="locale-dynamic" method="POST" action="{{ route('locale.switch', app()->getLocale()) }}" class="hidden">
-                    @csrf
-                </form>
 
                 <!-- Settings Dropdown -->
-                <x-dropdown align="right" width="48">
+                <x-dropdown :align="app()->getLocale() === 'ar' ? 'left' : 'right'" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
                             <div class="flex items-center gap-3">

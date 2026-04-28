@@ -18,6 +18,14 @@ class UserSeeder extends Seeder
         User::factory()->doctor()->create([
             'name' => 'Dr. Test User',
             'email' => 'doctor@example.com',
+            'password' => bcrypt('password'),
+        ]);
+
+        User::create([
+            'name' => 'Admin Med',
+            'email' => 'admin@med.com',
+            'password' => bcrypt('password'),
+            'role' => 'admin',
         ]);
     }
 }
